@@ -1,15 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather Today</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Today</title>
+  </head>
 
-<body>
-  
-</body>
+  <body>
+    <header>
+      <ul class="header-options">
+        <li class="header-option">Today's Weather</li>
+        <li class="header-option">7 Day Weather</li>
+      </ul>
 
-  <script src="index.js" type="module"></script>
+      <input
+        type="search"
+        name="search-query"
+        id="search-bar"
+        placeholder="Press '/' to search for City, Zip Code, Coordinates, etc."
+      />
+    </header>
+
+    <section id="current-weather-info">
+      <div class="info-container non-timeline">
+        <div class="main-weather-info">
+          <div class="weather-symbol"></div>
+
+          <div class="weather-location-temp-wrapper">
+            <div class="weather-location">New York</div>
+            <div class="weather-temperature">
+              <span class="hi-temp">70<span class="f-symbol">°F</span></span>
+              <span class="low-temp">66<span class="f-symbol">°F</span></span>
+            </div>
+            <div class="weather-precipitation">Precipitation - 28%</div>
+            <div class="weather-humidity">Humidity - 28%</div>
+            <div class="weather-wind">Wind - 14mph</div>
+          </div>
+        </div>
+
+        <div class="alerts-info">
+          <h2>Alerts</h2>
+          <div class="info-card-wrapper">
+            <div class="info-card">
+              <h4 class="alert-event">Wind Advisory</h4>
+              <div class="alert-headline">
+                Wind Advisory issued January 9 at 3:15PM EST until January 9 at
+                10:00PM EST by NWS Upton NY
+              </div>
+              <div class="alert-description">
+                * WHAT...Northwest winds 20 to 30 mph with gusts up to 50
+                mph.\n\n* WHERE...Portions of southern Connecticut, northeast
+                New Jersey,\nand southeast New York.\n\n* WHEN...Until 10 PM EST
+                this evening.\n\n* IMPACTS...Strong winds will result in some
+                downed tree limbs and a\nfew power outages may result. Unsecured
+                objects will be blown\naround and/or damaged.\n
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-container timeline"></div>
+    </section>
+  </body>
 </html>
