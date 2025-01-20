@@ -1,3 +1,8 @@
+@font-face {
+  font-family: Open-Sans;
+  src: url("./assets/fonts/Open_Sans/OpenSans-VariableFont_wdth\,wght.ttf");
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -8,10 +13,27 @@
   --smallInnerPadding: 5px;
   --mediumInnerPadding: 8px;
   --borderRadius: 5px;
+  --component-bg-col: hsl(0, 0%, 93%);
 }
 
 body {
-  font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: Open-Sans, Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+  color: hsl(0, 0%, 33%);
+}
+
+/* Generic Stylings */
+.flex-row-wrapper {
+  display: flex;
+}
+
+.flex-col-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none !important;
 }
 
 /* Header Section */
@@ -43,9 +65,9 @@ input[type="search"] {
   list-style: none;
 
   display: flex;
-  gap: 4rem;
+  gap: 4em;
 
-  font-size: 1.4rem;
+  font-size: 1.4em;
   padding: var(--mediumInnerPadding);
   margin-right: auto;
 }
@@ -56,27 +78,25 @@ input[type="search"] {
 }
 
 .header-option:hover {
-  color: hsl(0, 0%, 50%);
+  color: hsl(0, 0%, 43%);
 }
 
 .header-option:active {
   color: hsl(0, 0%, 30%);
 }
 
-
-/* Section */
 section {
   width: 100%;
   height: fit-content;
-  padding: 2rem 10px 2rem 10px;
-  margin: 1rem 0 1rem 0;
+  padding: 2em 10px 2em 10px;
+  margin: 1em 0 1em 0;
 
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 2rem;
+  gap: 2em;
 
-  background-color: whitesmoke;
+  background-color: hsl(0, 0%, 98%);
 }
 
 /* today */
@@ -85,63 +105,134 @@ section {
 }
 
 .weather-symbol {
-  width: 200px;
-  height: 200px;
-
-  border-radius: var(--borderRadius);
-  background-color: grey;
+  transform: scale(1.5);
 }
 
 .weather-today-info {
-  width: 275px;
-  height: 250px;
+  width: auto;
+  height: auto;
+
+  line-height: 1.25;
 
   border-radius: var(--borderRadius);
-  background-color: grey;
+  background-color: var(--component-bg-col);
+
+  align-items: center;
+  gap: 6px;
+
+  padding: 1em 2.5em 1em 2.5em;
+}
+
+.weather-other-info {
+  width: 100%;
+
+  padding: var(--smallInnerPadding) 12px var(--smallInnerPadding) 3rem;
+  border-radius: var(--borderRadius);
+  gap: 3px;
 }
 
 .weather-today-alerts {
-  width: 400px;
-  height: 250px;
+  width: 450px;
+  height: 300px;
 
   border-radius: var(--borderRadius);
-  background-color: grey;
+  background-color: var(--component-bg-col);
+
+  padding: var(--mediumInnerPadding) 1em 1em 1em;
+
+  line-height: 1.5;
 }
 
+.alert-container {
+  height: calc(100% - 35px);
+  overflow-y: auto;
+}
+
+.alert {
+  width: 100%;
+  padding: var(--smallInnerPadding) var(--mediumInnerPadding) var(--smallInnerPadding) var(--mediumInnerPadding);
+
+  background-color: hsl(0, 0%, 80%);
+  border-radius: var(--borderRadius);
+
+  margin-bottom: 8px;
+}
+
+.alert-headline {
+  font-weight: 600;
+}
+
+.alert-description {
+  font-size: 14px;
+}
+
+.no-active-alerts {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: calc(100% - 36px);
+
+  background-color: hsl(0, 0%, 80%);
+  border-radius: var(--borderRadius);
+}
+
+/*Individual styling*/
+.weather-location {
+  font-size: 2em;
+  font-weight: 500;
+}
+
+.weather-temp {
+  font-size: 3.5em;
+  align-self: center;
+}
+
+.weather-fl-temp {
+  font-size: 1.2em;
+  font-weight: 500;
+  align-self: center;
+}
+
+/**/
 
 
 /* hourly info */
 #hourly-info {
-  gap: .5rem;
+  gap: .5em;
   justify-content: center;
-  padding: 2rem;
+  padding: 2em;
   flex-wrap: nowrap;
 
   overflow-x: auto;
 }
 
+
 .card {
-  height: 200px;
-  width: 75px;
+  width: 80px;
   flex: 0 0 auto;
+  align-items: center;
+  gap: 2px;
+  
+  line-height: 1.5;
+  font-size: 15px;
 
-  background-color: grey;
+  background-color: hsl(0, 0%, 93%);
+
   border-radius: var(--borderRadius);
+
+  padding: var(--mediumInnerPadding) var(--smallInnerPadding) var(--mediumInnerPadding) var(--smallInnerPadding);
 }
 
-
-
-/* visualizer graph */
-#visualizer-graph {
-  justify-content: center;
-  overflow-x: auto;
+.card-weather-symbol {
+  transform: scale(.95);
 }
 
-.graph {
-  height: 200px;
-  width: calc(100% - 12rem);
-  min-width: 950px;
+.card-current-conditions, .card-wind-speed {
+  margin-top: 8px;
+}
 
-  background-color: grey;
-  border-radius: var(--borderRadius);
+.card-rain-chance, .card-wind-speed, .card-humidity {
+  font-size: 11.3px;
 }
