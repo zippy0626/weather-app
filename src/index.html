@@ -13,12 +13,15 @@
         <li class="header-option">7 Day Weather</li>
       </ul>
 
-      <input
-        type="search"
-        name="search-query"
-        id="search-bar"
-        placeholder="Press '/' to search for City, Zip Code, Coordinates, etc."
-      />
+      <div class="flex-col-wrapper">
+        <input
+          type="search"
+          name="search-query"
+          id="search-bar"
+          placeholder="Press '/' to search for City, Zip Code, Coordinates, etc."
+        />
+        <p class="error-msg hidden">Error searching for location. Please try again.</p>
+      </div>
     </header>
 
     <section id="today">

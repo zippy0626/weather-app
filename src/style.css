@@ -60,6 +60,10 @@ input[type="search"] {
   border: 1px grey solid;
   /* outline: none; */
 }
+.error-msg {
+  color: rgb(255, 0, 0);
+  font-size: 11px;
+}
 
 .header-options {
   list-style: none;
