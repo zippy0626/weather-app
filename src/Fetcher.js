@@ -51,7 +51,7 @@ function Fetcher() {
 
     getReadableUserLocation(lat, long) {}, //least priority right now
 
-    async getDailyWeather(location) {
+    async getDailyData(location) {
       const formattedDate = format(new Date(), "yyyy-MM-dd");
 
       if (!location) {
@@ -76,7 +76,7 @@ function Fetcher() {
       }
     },
 
-    async getWeeklyWeather(location) {
+    async getWeeklyData(location) {
       const startDate = format(new Date(), `yyyy-MM-dd`);
       const endDate = format(addDays(new Date(), 6), `yyyy-MM-dd`);
 
