@@ -1,10 +1,15 @@
+import { format } from "date-fns";
+import { addDays } from "date-fns";
+import Controller from "./Controller.js";
+
 function Fetcher() {
   const k = `8TVX7CLKQ9TNDWBRZ96G9QW4D`;
 
   return {
     getUserCoordinates() {
-      if ("geolocation" in navigator) {
-        return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
+        if ("geolocation" in navigator) {
+          //callback fns for geolocation
           function handleSuccess(position) {
             const userCoords = [
               position.coords.latitude,
@@ -31,45 +36,69 @@ function Fetcher() {
             timeout: 5000,
             maximumAge: 0,
           };
+          //
 
           navigator.geolocation.getCurrentPosition(
             handleSuccess,
             handleError,
             options
           );
-        });
-      } else {
-        throw new Error(
-          "Geolocation object not found, cannot get User coordinates."
-        );
+        } else {
+          reject(new Error("Geolocation is not supported by this browser."));
+        }
+      });
+    },
+
+    getReadableUserLocation(lat, long) {}, //least priority right now
+
+    async getDailyWeather(location) {
+      const formattedDate = format(new Date(), "yyyy-MM-dd");
+
+      if (!location) {
+        throw new Error("Please provide a location parameter.");
+      }
+
+      const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${formattedDate}?key=${k}`;
+
+      try {
+        const response = await fetch(link);
+        if (!response.ok) {
+          throw new Error(
+            `Failed to fetch weather data.\nStatus: ${
+              response.status
+            }\nMessage: ${response.statusText || "No details available."}`
+          );
+        }
+        return await response.json();
+      } catch (error) {
+        Controller.showSearchError(4000);
+        throw error;
       }
     },
 
-    async getWeatherDataToday(location) {
-      //fix getting date later
-      let [month, date, year] = new Date().toLocaleDateString().split("/");
-      if (month.length === 1) month = `0` + month;
-      let formattedDate = `${year}-${month}-${date}`;
+    async getWeeklyWeather(location) {
+      const startDate = format(new Date(), `yyyy-MM-dd`);
+      const endDate = format(addDays(new Date(), 6), `yyyy-MM-dd`);
+
+      if (!location) {
+        throw new Error("Please provide a location parameter.");
+      }
+
+      const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${startDate}/${endDate}?key=${k}`;
 
       try {
-        if (!location) {
-          throw new Error("Please provide a location parameter.");
-        }
-
-        const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${formattedDate}?key=${k}`;
-
         const response = await fetch(link);
-
         if (!response.ok) {
-          throw new Error(`HTTP error. Status: ${response.status}`);
-        } else {
-          const json = await response.json();
-          return json;
+          throw new Error(
+            `Failed to fetch weather data.\nStatus: ${
+              response.status
+            }\nMessage: ${response.statusText || "No details available."}`
+          );
         }
+
+        return await response.json();
       } catch (error) {
-        console.log(
-          `Error fetching weather data from location: ${location}, on date: ${formattedDate}\n`
-        );
+        Controller.showSearchError(4000);
         throw error;
       }
     },
