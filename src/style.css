@@ -136,7 +136,7 @@ section {
 }
 
 .weather-today-alerts {
-  width: 450px;
+  width: 450px; 
   height: 300px;
 
   border-radius: var(--borderRadius);
@@ -144,7 +144,7 @@ section {
 
   padding: var(--mediumInnerPadding) 1em 1em 1em;
 
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .alert-container {
@@ -160,6 +160,7 @@ section {
   border-radius: var(--borderRadius);
 
   margin-bottom: 8px;
+  gap: 5px;
 }
 
 .alert-headline {
