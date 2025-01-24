@@ -1,4 +1,5 @@
 import fetcher from "./Fetcher.js";
+import Updater from "./Updater.js";
 
 const Controller = {
   isSearchErrorMsgShown: false,
@@ -13,6 +14,7 @@ const Controller = {
       if (e.key === "/" && e.target !== searchBar) {
         e.preventDefault();
         searchBar.focus();
+        searchBar.select();
       }
     });
 
@@ -27,6 +29,8 @@ const Controller = {
         try {
           const data = await fetcher.getDailyData(query);
           console.log(data); //handle data here
+          Updater.updateTodayInfo(data);
+          Updater.updateTodayAlerts(data);
         } catch (error) {
           this.showSearchError(4000);
           throw error;
