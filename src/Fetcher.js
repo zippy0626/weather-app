@@ -71,7 +71,6 @@ function Fetcher() {
         }
         return await response.json();
       } catch (error) {
-        Controller.showSearchError(4000);
         throw error;
       }
     },
@@ -98,7 +97,6 @@ function Fetcher() {
 
         return await response.json();
       } catch (error) {
-        Controller.showSearchError(4000);
         throw error;
       }
     },
