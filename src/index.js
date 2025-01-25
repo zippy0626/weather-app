@@ -1,5 +1,6 @@
-import fetcher from "./Fetcher.js";
+import "./style.css";
+import Controller from "./Controller.js"
 
-// let location = await fetcher.getUserCoordinates();
-// // let weatherData = await fetcher.getWeatherDataToday(location);
-// // console.log(weatherData);
+setTimeout(() => {
+  Controller.init()
+}, 500);

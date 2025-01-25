@@ -59,11 +59,13 @@ const Updater = {
     }
 
     const alertContainer = document.querySelector(".alert-container");
-    const todaysAlerts = document.querySelector('.weather-today-alerts')
+    const todaysAlerts = document.querySelector(".weather-today-alerts");
 
-    if (data.alerts.length) {
-      todaysAlerts.style.width = `500px`;
-      todaysAlerts.style.height = `350px`;
+    if (data.alerts && data.alerts.length) {
+      if (data.alerts.length > 1) {
+        todaysAlerts.style.width = `500px`;
+        todaysAlerts.style.height = `350px`;
+      }
 
       alertContainer.innerHTML = `<div class="no-active-alerts hidden">No Alerts At This Time.</div>`;
 
@@ -77,6 +79,11 @@ const Updater = {
 
       alertContainer.innerHTML = `<div class="no-active-alerts">No Alerts At This Time.</div>`;
     }
+  },
+
+  updateToday(data) {
+    this.updateTodayInfo(data);
+    this.updateTodayAlerts(data);
   },
 };
 

@@ -6,6 +6,16 @@ const Controller = {
 
   async init() {
     this.handleSearchBar();
+    try {
+      const [long, lat] = await fetcher.getUserCoordinates();
+      const data = await fetcher.getDailyData([long, lat]);
+      Updater.updateToday(data);
+    } catch (error) {
+      const defaultAddress = "Brooklyn, NY";
+      const data = await fetcher.getDailyData(defaultAddress);
+      Updater.updateToday(data);
+      throw error;
+    }
   },
 
   handleSearchBar() {
@@ -28,12 +38,11 @@ const Controller = {
 
         try {
           const data = await fetcher.getDailyData(query);
-          console.log(data); //handle data here
-          Updater.updateTodayInfo(data);
-          Updater.updateTodayAlerts(data);
+          Updater.updateToday(data)
         } catch (error) {
-          this.showSearchError(4000);
           throw error;
+        } finally {
+          this.showSearchError(4000);
         }
       }
     });

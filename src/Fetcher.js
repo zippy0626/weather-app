@@ -1,15 +1,25 @@
 import { format } from "date-fns";
 import { addDays } from "date-fns";
-import Controller from "./Controller.js";
 
 function Fetcher() {
   const k = `8TVX7CLKQ9TNDWBRZ96G9QW4D`;
+  let LIMITMS = 1000;
+  let isRequesting = false;
+  let timeout = null;
 
   return {
+    resetIsRequesting() {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(() => {
+        isRequesting = false;
+      }, LIMITMS);
+    },
+
     getUserCoordinates() {
       return new Promise((resolve, reject) => {
         if ("geolocation" in navigator) {
-          //callback fns for geolocation
           function handleSuccess(position) {
             const userCoords = [
               position.coords.latitude,
@@ -27,7 +37,7 @@ function Fetcher() {
 
             const message = messages[err.code] || "An unknown error occurred.";
 
-            alert(message); // Replace with a custom UI notification if needed
+            // alert(message); //can change l8ter
             reject(new Error(message));
           }
 
@@ -36,7 +46,6 @@ function Fetcher() {
             timeout: 5000,
             maximumAge: 0,
           };
-          //
 
           navigator.geolocation.getCurrentPosition(
             handleSuccess,
@@ -52,6 +61,8 @@ function Fetcher() {
     getReadableUserLocation(lat, long) {}, //least priority right now
 
     async getDailyData(location) {
+      if (isRequesting) return;
+
       const formattedDate = format(new Date(), "yyyy-MM-dd");
 
       if (!location) {
@@ -61,6 +72,7 @@ function Fetcher() {
       const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${formattedDate}?key=${k}`;
 
       try {
+        isRequesting = true;
         const response = await fetch(link);
         if (!response.ok) {
           throw new Error(
@@ -72,10 +84,14 @@ function Fetcher() {
         return await response.json();
       } catch (error) {
         throw error;
+      } finally {
+        this.resetIsRequesting();
       }
     },
 
     async getWeeklyData(location) {
+      if (isRequesting) return;
+
       const startDate = format(new Date(), `yyyy-MM-dd`);
       const endDate = format(addDays(new Date(), 6), `yyyy-MM-dd`);
 
@@ -86,6 +102,7 @@ function Fetcher() {
       const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${startDate}/${endDate}?key=${k}`;
 
       try {
+        isRequesting = true;
         const response = await fetch(link);
         if (!response.ok) {
           throw new Error(
@@ -94,10 +111,11 @@ function Fetcher() {
             }\nMessage: ${response.statusText || "No details available."}`
           );
         }
-
         return await response.json();
       } catch (error) {
         throw error;
+      } finally {
+        this.resetIsRequesting();
       }
     },
   };
