@@ -3,4 +3,4 @@ import Controller from "./Controller.js"
 
 setTimeout(() => {
   Controller.init()
-}, 500);
+}, 0); //make happen last
