@@ -1,7 +1,5 @@
 import { format } from "date-fns";
 import { addDays } from "date-fns";
-import ModalMaker from "./Modal.js";
-import Controller from "./Controller.js";
 
 function Fetcher() {
   const k = `8TVX7CLKQ9TNDWBRZ96G9QW4D`;
@@ -17,6 +15,15 @@ function Fetcher() {
       timeout = setTimeout(() => {
         isRequesting = false;
       }, LIMITMS);
+    },
+
+    getMilitaryTime() {
+      return new Intl.DateTimeFormat("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      }).format(new Date());
     },
 
     getUserCoordinates() {
@@ -95,6 +102,34 @@ function Fetcher() {
 
       const startDate = format(new Date(), `yyyy-MM-dd`);
       const endDate = format(addDays(new Date(), 6), `yyyy-MM-dd`);
+
+      if (!location) {
+        throw new Error("Please provide a location parameter.");
+      }
+
+      const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${startDate}/${endDate}?key=${k}`;
+
+      try {
+        isRequesting = true;
+        const response = await fetch(link);
+        if (!response.ok) {
+          throw new Error(
+            `Failed to fetch weather data.\nStatus: ${
+              response.status
+            }\nMessage: ${response.statusText || "No details available."}`
+          );
+        }
+        return await response.json();
+      } catch (error) {
+        throw error;
+      } finally {
+        this.resetIsRequesting();
+      }
+    },
+
+    async get12HourTimeline(location) {
+      const startDate = format(new Date(), `yyyy-MM-dd`);
+      const endDate = format(addDays(new Date(), 1), `yyyy-MM-dd`);
 
       if (!location) {
         throw new Error("Please provide a location parameter.");

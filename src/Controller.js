@@ -10,15 +10,22 @@ const Controller = {
     try {
       //user allows location
       const [long, lat] = await fetcher.getUserCoordinates();
+
       const data = await fetcher.getDailyData([long, lat]);
+      const timelineData = await fetcher.get12HourTimeline([long, lat]);
+
+      console.log(data, timelineData);
       Updater.updateToday(data);
 
-      ModalMaker.hideModal()
-      localStorage.removeItem("dontShowAgain")
+      ModalMaker.hideModal();
+      localStorage.removeItem("dontShowAgain");
     } catch (error) {
       //user denies location
       const defaultAddress = "Manhattan, NY";
+
       const data = await fetcher.getDailyData(defaultAddress);
+      const timelineData = await fetcher.get12HourTimeline(defaultAddress);
+
       Updater.updateToday(data);
 
       //dont show again

@@ -81,6 +81,53 @@ const Updater = {
     }
   },
 
+  updateTodayTimeline(data) {
+    const currentTime = Number(this.getMilitaryTime().slice(0, 2));
+
+    //hours are arrays
+    let hours1 = data.days[0].hours;
+    let hours2 = data.days[1].hours;
+
+    hours1 = hours1.splice(currentTime, hours1.length);
+    hours2 = hours2.splice(0, currentTime + 1);
+
+    let timeline = Array.prototype.concat(hours1, hours2).filter((time) => {
+      //get even times.
+      return Number(time.datetime.slice(0, 2)) % 2 === 0;
+    });
+
+    console.log(timeline);
+
+    for (const time of timeline) {
+      const hourlyTimeline = document.querySelector("#hourly-info");
+      hourlyTimeline.innerHTML = ``;
+
+      const timeIndex =
+        Number(time.datetime.slice(0, 2)) > 12
+          ? Number(time.datetime.slice(0, 2)) - 12
+          : Number(time.datetime.slice(0, 2));
+
+      const temp = Math.round(time.temp);
+      const windSpeed = Math.round(time.windspeed);
+      const precipChance = Math.round(time.precipprob);
+      const humidity = Math.round(time.humidity);
+
+      console.log(timeIndex)
+
+      const cardTemplate = `
+      <div class="card flex-col-wrapper">
+        <p class="current-time time">8AM</p>
+        <img src="2164d3c4f5b55bd11f03.svg" alt="cloudy Day" class="card-weather-symbol" draggable="false">
+        <p class="card-current-conditions">Sunny</p>
+        <p class="card-temperature">72 F°</p>
+        <p class="card-wind-speed">1mph</p>
+        <p class="card-rain-chance">0% rain</p>
+        <p class="card-humidity">50% humid</p>
+      </div>
+      `;
+    }
+  },
+
   updateToday(data) {
     this.updateTodayInfo(data);
     this.updateTodayAlerts(data);
