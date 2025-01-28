@@ -1,5 +1,7 @@
 import { format } from "date-fns";
 import { addDays } from "date-fns";
+import ModalMaker from "./Modal.js";
+import Controller from "./Controller.js";
 
 function Fetcher() {
   const k = `8TVX7CLKQ9TNDWBRZ96G9QW4D`;
@@ -37,7 +39,6 @@ function Fetcher() {
 
             const message = messages[err.code] || "An unknown error occurred.";
 
-            // alert(message); //can change l8ter
             reject(new Error(message));
           }
 

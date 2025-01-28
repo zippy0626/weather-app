@@ -1,5 +1,6 @@
 import fetcher from "./Fetcher.js";
 import Updater from "./Updater.js";
+import ModalMaker from "./Modal.js";
 
 const Controller = {
   isSearchErrorMsgShown: false,
@@ -7,13 +8,27 @@ const Controller = {
   async init() {
     this.handleSearchBar();
     try {
+      //user allows location
       const [long, lat] = await fetcher.getUserCoordinates();
       const data = await fetcher.getDailyData([long, lat]);
       Updater.updateToday(data);
+
+      ModalMaker.hideModal()
+      localStorage.removeItem("dontShowAgain")
     } catch (error) {
-      const defaultAddress = "Brooklyn, NY";
+      //user denies location
+      const defaultAddress = "Manhattan, NY";
       const data = await fetcher.getDailyData(defaultAddress);
       Updater.updateToday(data);
+
+      //dont show again
+      if (localStorage.getItem("dontShowAgain")) {
+        ModalMaker.hideModal();
+      } else {
+        ModalMaker.showLocationAccessDisabledModal();
+        this.handleModalButtons();
+      }
+
       throw error;
     }
   },
@@ -38,7 +53,7 @@ const Controller = {
 
         try {
           const data = await fetcher.getDailyData(query);
-          Updater.updateToday(data)
+          Updater.updateToday(data);
         } catch (error) {
           throw error;
         } finally {
@@ -59,6 +74,21 @@ const Controller = {
       errorMsg.classList.add("hidden");
       this.isSearchErrorMsgShown = false;
     }, MILLISECONDS);
+  },
+
+  handleModalButtons() {
+    const modalBtnContainer = document.querySelector(".modal-buttons");
+    modalBtnContainer.addEventListener("click", (e) => {
+      const target = e.target;
+      if (target.type !== "button") return;
+
+      if (target.textContent === "Ok") {
+        ModalMaker.hideModal();
+      } else {
+        localStorage.setItem("dontShowAgain", true);
+        ModalMaker.hideModal();
+      }
+    });
   },
 };
 
