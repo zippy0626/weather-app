@@ -1,5 +1,5 @@
 const ModalMaker = {
-  showModal(msg, title) {
+  showModal(msg, title) {//just in case
     const modal = document.querySelector(".modal");
     const overlay = document.querySelector(".overlay");
 
@@ -17,10 +17,10 @@ const ModalMaker = {
 
   hideModal() {
     const modal = document.querySelector(".modal");
-    const overlay = document.querySelector('.overlay')
+    const overlay = document.querySelector(".overlay");
 
     modal.classList.add("hidden");
-    overlay.classList.add('hidden')
+    overlay.classList.add("hidden");
   },
 
   showLocationAccessDisabledModal() {
