@@ -8,12 +8,12 @@ const Fetcher = {
   timeout: null,
 
   resetIsRequesting() {
-    if (timeout) {
-      clearTimeout(timeout);
+    if (this.timeout) {
+      clearTimeout(this.timeout);
     }
-    timeout = setTimeout(() => {
-      isRequesting = false;
-    }, LIMITMS);
+    this.timeout = setTimeout(() => {
+      this.isRequesting = false;
+    }, this.LIMITMS);
   },
 
   getMilitaryTime() {
@@ -68,7 +68,7 @@ const Fetcher = {
   getReadableUserLocation(lat, long) {}, //least priority right now
 
   async getDailyData(location) {
-    if (isRequesting) return;
+    if (this.isRequesting) return;
 
     const formattedDate = format(new Date(), "yyyy-MM-dd");
 
@@ -76,10 +76,10 @@ const Fetcher = {
       throw new Error("Please provide a location parameter.");
     }
 
-    const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${formattedDate}?key=${k}`;
+    const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${formattedDate}?key=${this.k}`;
 
     try {
-      isRequesting = true;
+      this.isRequesting = true;
       const response = await fetch(link);
       if (!response.ok) {
         throw new Error(
@@ -92,12 +92,12 @@ const Fetcher = {
     } catch (error) {
       throw error;
     } finally {
-      resetIsRequesting();
+      this.resetIsRequesting();
     }
   },
 
   async getWeeklyData(location) {
-    if (isRequesting) return;
+    if (this.isRequesting) return;
 
     const startDate = format(new Date(), `yyyy-MM-dd`);
     const endDate = format(addDays(new Date(), 6), `yyyy-MM-dd`);
@@ -106,10 +106,10 @@ const Fetcher = {
       throw new Error("Please provide a location parameter.");
     }
 
-    const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${startDate}/${endDate}?key=${k}`;
+    const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${startDate}/${endDate}?key=${this.k}`;
 
     try {
-      isRequesting = true;
+      this.isRequesting = true;
       const response = await fetch(link);
       if (!response.ok) {
         throw new Error(
@@ -122,7 +122,7 @@ const Fetcher = {
     } catch (error) {
       throw error;
     } finally {
-      resetIsRequesting();
+      this.resetIsRequesting();
     }
   },
 
@@ -134,10 +134,10 @@ const Fetcher = {
       throw new Error("Please provide a location parameter.");
     }
 
-    const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${startDate}/${endDate}?key=${k}`;
+    const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${startDate}/${endDate}?key=${this.k}`;
 
     try {
-      isRequesting = true;
+      this.isRequesting = true;
       const response = await fetch(link);
       if (!response.ok) {
         throw new Error(
@@ -150,7 +150,7 @@ const Fetcher = {
     } catch (error) {
       throw error;
     } finally {
-      resetIsRequesting();
+      this.resetIsRequesting();
     }
   },
 };
