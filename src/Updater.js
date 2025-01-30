@@ -130,6 +130,7 @@ const Updater = {
   updateToday(data) {
     this.updateTodayInfo(data);
     this.updateTodayAlerts(data);
+    this.updateTodayTimeline(data);
   },
 };
 
