@@ -111,7 +111,8 @@ const Updater = {
       const precipChance = Math.round(time.precipprob);
       const humidity = Math.round(time.humidity);
 
-      const cardTemplate = `
+      const cardTemplate = timeIndex === "10PM" ?
+      `
       <div class="card flex-col-wrapper">
         <p class="current-time time">${timeIndex}</p>
         <img src="2164d3c4f5b55bd11f03.svg" alt="cloudy Day" class="card-weather-symbol" draggable="false">
@@ -121,7 +122,20 @@ const Updater = {
         <p class="card-rain-chance">${precipChance}% rain</p>
         <p class="card-humidity">${humidity}% humid</p>
       </div>
-      `;
+      <div class="tomorrow-divider">Tomorrow</div>
+      `
+      :
+      `
+      <div class="card flex-col-wrapper">
+        <p class="current-time time">${timeIndex}</p>
+        <img src="2164d3c4f5b55bd11f03.svg" alt="cloudy Day" class="card-weather-symbol" draggable="false">
+        <p class="card-current-conditions">${conditions}</p>
+        <p class="card-temperature">${temp} F°</p>
+        <p class="card-wind-speed">${windSpeed} mph</p>
+        <p class="card-rain-chance">${precipChance}% rain</p>
+        <p class="card-humidity">${humidity}% humid</p>
+      </div>
+      `
 
       hourlyTimeline.innerHTML += cardTemplate;
     }

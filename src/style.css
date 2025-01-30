@@ -7,6 +7,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* outline: 1px solid black; */
 }
 
 :root {
@@ -215,6 +216,7 @@ section {
 
 .card {
   width: 80px;
+  height: 255px;
   flex: 0 0 auto;
   align-items: center;
   gap: 2px;
@@ -228,13 +230,26 @@ section {
 
   padding: var(--mediumInnerPadding) var(--smallInnerPadding)
     var(--mediumInnerPadding) var(--smallInnerPadding);
+  transition: all 200ms ease;
+}
+.card:hover {
+  background-color: hsl(0, 0%, 95%);
 }
 
 .card-weather-symbol {
   transform: scale(0.95);
 }
 
-.card-current-conditions,
+.card-current-conditions {
+  font-size: 13px;
+  text-align: center;
+  height: 45px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .card-wind-speed {
   margin-top: 8px;
 }
@@ -244,6 +259,23 @@ section {
 .card-humidity {
   font-size: 11.3px;
 }
+
+.tomorrow-divider {
+  width: 20px;
+  height: 255px;
+  border-radius: var(--borderRadius);
+  background-color: hsl(0, 0%, 85%);
+
+  font-size: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
 
 /* modal */
 .modal {
@@ -273,15 +305,13 @@ section {
   gap: 5px;
 }
 
-
 .modal-buttons button {
   padding: var(--smallInnerPadding) 10px var(--smallInnerPadding) 10px;
-  font-size: .9em;
+  font-size: 0.9em;
   cursor: pointer;
 
   margin-top: 12px;
 }
-
 
 .overlay {
   width: 100vw;
