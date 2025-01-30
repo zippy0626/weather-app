@@ -1,4 +1,4 @@
-import fetcher from "./Fetcher.js";
+import Fetcher from "./Fetcher.js";
 import Updater from "./Updater.js";
 import ModalMaker from "./Modal.js";
 
@@ -6,16 +6,17 @@ const Controller = {
   isSearchErrorMsgShown: false,
 
   async init() {
+    this.handleTimelineResize();
     this.handleSearchBar();
     try {
       //user allows location
-      const [long, lat] = await fetcher.getUserCoordinates();
+      const [long, lat] = await Fetcher.getUserCoordinates();
 
-      const data = await fetcher.getDailyData([long, lat]);
-      const timelineData = await fetcher.get12HourTimeline([long, lat]);
+      const data = await Fetcher.getDailyData([long, lat]);
+      console.log(data, "regular data");
 
-      console.log(data, timelineData);
       Updater.updateToday(data);
+      Updater.updateTodayTimeline(data);
 
       ModalMaker.hideModal();
       localStorage.removeItem("dontShowAgain");
@@ -23,10 +24,10 @@ const Controller = {
       //user denies location
       const defaultAddress = "Manhattan, NY";
 
-      const data = await fetcher.getDailyData(defaultAddress);
-      const timelineData = await fetcher.get12HourTimeline(defaultAddress);
+      const data = await Fetcher.getDailyData(defaultAddress);
 
       Updater.updateToday(data);
+      Updater.updateTodayTimeline(data);
 
       //dont show again
       if (localStorage.getItem("dontShowAgain")) {
@@ -59,7 +60,7 @@ const Controller = {
         const query = searchBar.value.trim();
 
         try {
-          const data = await fetcher.getDailyData(query);
+          const data = await Fetcher.getDailyData(query);
           Updater.updateToday(data);
         } catch (error) {
           throw error;
@@ -95,6 +96,26 @@ const Controller = {
         localStorage.setItem("dontShowAgain", true);
         ModalMaker.hideModal();
       }
+    });
+  },
+
+  handleTimelineResize() {
+    function test(mediaQuery) {
+      if (mediaQuery.matches) {
+        const hourlyTimeline = document.querySelector("#hourly-info");
+        hourlyTimeline.style.justifyContent = "start";
+      } else {
+        const hourlyTimeline = document.querySelector("#hourly-info");
+        hourlyTimeline.style.justifyContent = "center";
+      }
+    }
+
+    const mediaQuery = window.matchMedia("(max-width: 1000px)");
+
+    test(mediaQuery);
+
+    mediaQuery.addEventListener("change", () => {
+      test(mediaQuery);
     });
   },
 };

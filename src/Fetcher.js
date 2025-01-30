@@ -70,13 +70,16 @@ const Fetcher = {
   async getDailyData(location) {
     if (this.isRequesting) return;
 
-    const formattedDate = format(new Date(), "yyyy-MM-dd");
+    const startDate = format(new Date(), "yyyy-MM-dd");
+    const endDate = format(addDays(new Date(), 1), "yyyy-MM-dd");
 
     if (!location) {
       throw new Error("Please provide a location parameter.");
     }
 
-    const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${formattedDate}?key=${this.k}`;
+    const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${startDate}/${endDate}?key=${
+      this.k
+    }`;
 
     try {
       this.isRequesting = true;
@@ -106,35 +109,9 @@ const Fetcher = {
       throw new Error("Please provide a location parameter.");
     }
 
-    const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${startDate}/${endDate}?key=${this.k}`;
-
-    try {
-      this.isRequesting = true;
-      const response = await fetch(link);
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch weather data.\nStatus: ${
-            response.status
-          }\nMessage: ${response.statusText || "No details available."}`
-        );
-      }
-      return await response.json();
-    } catch (error) {
-      throw error;
-    } finally {
-      this.resetIsRequesting();
-    }
-  },
-
-  async get12HourTimeline(location) {
-    const startDate = format(new Date(), `yyyy-MM-dd`);
-    const endDate = format(addDays(new Date(), 1), `yyyy-MM-dd`);
-
-    if (!location) {
-      throw new Error("Please provide a location parameter.");
-    }
-
-    const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${startDate}/${endDate}?key=${this.k}`;
+    const link = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.toString()}/${startDate}/${endDate}?key=${
+      this.k
+    }`;
 
     try {
       this.isRequesting = true;
