@@ -30,7 +30,6 @@ const Controller = {
         ModalMaker.showLocationAccessDisabledModal();
         this.handleModalButtons();
       }
-
       throw error;
     }
   },
@@ -57,9 +56,8 @@ const Controller = {
           const data = await Fetcher.getDailyData(query);
           Updater.updateToday(data);
         } catch (error) {
+          this.showSearchError(4000)
           throw error;
-        } finally {
-          this.showSearchError(4000);
         }
       }
     });
