@@ -2,7 +2,7 @@
 
 Simple weather app. Get weather info. Search for locations. etc.
 <br>
-[Live Link]()
+[Live Link](https://zippy0626.github.io/weather-app/)
 
 
 ## Table of Contents
