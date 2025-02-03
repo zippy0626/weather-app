@@ -1,6 +1,7 @@
 # Weather App
 
 Simple weather app. Get weather info. Search for locations. etc.
+<br>
 [Live Link]()
 
 ---
@@ -15,7 +16,7 @@ Simple weather app. Get weather info. Search for locations. etc.
 
 ## Preview
 
-<a src="./src/assets/preview.png" alt="Preview Image" width="1000px">
+<a src="/src/assets/preview.png" alt="Preview Image" width="1000px">
 
 ---
 
