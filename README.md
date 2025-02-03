@@ -4,7 +4,6 @@ Simple weather app. Get weather info. Search for locations. etc.
 <br>
 [Live Link]()
 
----
 
 ## Table of Contents
 
@@ -12,13 +11,11 @@ Simple weather app. Get weather info. Search for locations. etc.
 - [Installation](#installation)
 - [License](#license)
 
----
 
 ## Preview
 
-<a src="/src/assets/preview.png" alt="Preview Image" width="1000px">
+<a src="src/assets/preview.png" alt="Preview Image" width="1000px">
 
----
 
 ## Installation
 
@@ -38,8 +35,6 @@ npm install
 npm run build
 ```
 
----
-
-## License 📄
+## License 
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details
