@@ -3,9 +3,6 @@ import { addDays } from "date-fns";
 
 const Fetcher = {
   k: `8TVX7CLKQ9TNDWBRZ96G9QW4D`,
-  LIMITMS: 1000,
-  isRequesting: false,
-  timeout: null,
 
   resetIsRequesting() {
     if (this.timeout) {
@@ -68,8 +65,6 @@ const Fetcher = {
   getReadableUserLocation(lat, long) {}, //least priority right now
 
   async getDailyData(location) {
-    if (this.isRequesting) return;
-
     const startDate = format(new Date(), "yyyy-MM-dd");
     const endDate = format(addDays(new Date(), 1), "yyyy-MM-dd");
 
@@ -82,7 +77,6 @@ const Fetcher = {
     }`;
 
     try {
-      this.isRequesting = true;
       const response = await fetch(link);
       if (!response.ok) {
         throw new Error(
@@ -94,14 +88,10 @@ const Fetcher = {
       return await response.json();
     } catch (error) {
       throw error;
-    } finally {
-      this.resetIsRequesting();
     }
   },
 
   async getWeeklyData(location) {
-    if (this.isRequesting) return;
-
     const startDate = format(new Date(), `yyyy-MM-dd`);
     const endDate = format(addDays(new Date(), 6), `yyyy-MM-dd`);
 
@@ -114,7 +104,6 @@ const Fetcher = {
     }`;
 
     try {
-      this.isRequesting = true;
       const response = await fetch(link);
       if (!response.ok) {
         throw new Error(
@@ -126,8 +115,6 @@ const Fetcher = {
       return await response.json();
     } catch (error) {
       throw error;
-    } finally {
-      this.resetIsRequesting();
     }
   },
 };
